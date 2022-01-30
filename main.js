@@ -8,7 +8,7 @@ let secondCount = 0
 let thirdIntervalId
 let thirdCount = 0
 let stopCount = 1
-const speed = 300
+const speed = 100
 const resArr = [[0,0,0],[0,0,0],[0,0,0]] //col1, col2, col3
 
 
@@ -103,30 +103,26 @@ document.querySelector('.stop').addEventListener('click', stopCycle)
 
 function startCycle(){
 	//check if an interval has already been set up
-	if(!firstIntervalId){
+	if(!firstIntervalId && !secondIntervalId && !thirdIntervalId){
 		firstIntervalId = setInterval(firstCycleArray, speed)
-	}
-    if(!secondIntervalId){
-		secondIntervalId = setInterval(secondCycleArray, speed)
-	}
-    if(!thirdIntervalId){
-		thirdIntervalId = setInterval(thirdCycleArray, speed)
+        secondIntervalId = setInterval(secondCycleArray, speed)
+        thirdIntervalId = setInterval(thirdCycleArray, speed)
 	}
 }
 
 //the if statements allow the player to stop each column one at a time, left to right
 function stopCycle(){
-    if (stopCount === 1){
+    if (stopCount === 1 && firstIntervalId){
         clearInterval(firstIntervalId)
         // release our intervalID from the variable
         firstIntervalId = null 
         stopCount++
-    } else if(stopCount === 2){
+    } else if(stopCount === 2 && secondIntervalId){
         clearInterval(secondIntervalId)
         // release our intervalID from the variable
         secondIntervalId = null 
         stopCount++
-    } else if (stopCount === 3){
+    } else if (stopCount === 3 && thirdIntervalId){
         clearInterval(thirdIntervalId)
         // release our intervalID from the variable
         thirdIntervalId = null 
