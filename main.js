@@ -11,6 +11,12 @@ let stopCount = 1
 const speed = 100
 const resArr = [[0,0,0],[0,0,0],[0,0,0]] //col1, col2, col3
 
+//player money
+let coins = 50
+localStorage.setItem('coins', coins)
+
+document.querySelector('.coins').innerText = localStorage.getItem('coins')
+
 
 
 //each of the next three functions control the numbers in one of the columns
@@ -104,10 +110,13 @@ document.querySelector('.stop').addEventListener('click', stopCycle)
 function startCycle(){
 	//check if an interval has already been set up
 	if(!firstIntervalId && !secondIntervalId && !thirdIntervalId){
+//place bet function here
+        getBet()
 		firstIntervalId = setInterval(firstCycleArray, speed)
         secondIntervalId = setInterval(secondCycleArray, speed)
         thirdIntervalId = setInterval(thirdCycleArray, speed)
 	}
+    
 }
 
 //the if statements allow the player to stop each column one at a time, left to right
@@ -150,5 +159,19 @@ function checkWin(){
     }
 }
 
+const radioBtns = document.querySelectorAll('input[name="coin"]')
 
-//set up array with image sources that map to the indices of the counting arrays and apply that to img tags
+function getBet(){
+    let selectedBet
+    for (const radioBtn of radioBtns){
+        if (radioBtn.checked){
+            selectedBet = radioBtn.value
+            break
+        }
+    }
+    coins -= selectedBet
+    localStorage.setItem('coins', coins)
+    document.querySelector('.coins').innerText = localStorage.getItem('coins')
+
+    console.log(selectedBet)
+}

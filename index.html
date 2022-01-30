@@ -10,7 +10,13 @@
 <body>
     <section>
         <h2>Coins left: <span class="coins"></span></h2>
-        <h3>Place your bets! <input type="number" placeholder="" step="1" min="1" max="3"></h3> 
+        <h3>Place your bets! 
+          <form action="">
+            <input type="radio" name="coin" id="oneCoin" value="1"><label for="oneCoin">1</label>
+            <input type="radio" name="coin" id="twoCoins" value="2"><label for="twoCoins">2</label>
+            <input type="radio" name="coin" id="threeCoins" value="3"><label for="threeCoins">3</label>
+          </form>
+        </h3> 
         <section class="slotsContainer">
             <section id="col0">
                 <div class="col0-top"><img src="" alt="" id="icon00"></div>
