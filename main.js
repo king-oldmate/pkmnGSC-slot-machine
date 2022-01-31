@@ -10,14 +10,12 @@ let thirdCount = 0
 let stopCount = 1
 const speed = 100
 const resArr = [[0,0,0],[0,0,0],[0,0,0]] //col1, col2, col3
+let canPlay = true
 
 //player money
 let coins = 50
-localStorage.setItem('coins', coins)
-
-document.querySelector('.coins').innerText = localStorage.getItem('coins')
-
-
+//localStorage.setItem('coins', coins)
+document.querySelector('.coins').innerText = coins
 
 //each of the next three functions control the numbers in one of the columns
 function firstCycleArray() {
@@ -110,13 +108,10 @@ document.querySelector('.stop').addEventListener('click', stopCycle)
 function startCycle(){
 	//check if an interval has already been set up
 	if(!firstIntervalId && !secondIntervalId && !thirdIntervalId){
-//place bet function here
+        //place bet function here
         getBet()
-		firstIntervalId = setInterval(firstCycleArray, speed)
-        secondIntervalId = setInterval(secondCycleArray, speed)
-        thirdIntervalId = setInterval(thirdCycleArray, speed)
+		
 	}
-    
 }
 
 //the if statements allow the player to stop each column one at a time, left to right
@@ -142,13 +137,11 @@ function stopCycle(){
     
 }
 
-
 //resArr layout
 //c0|c1|c2
 //[0][0][0]
 //[1][1][1]
 //[2][2][2]
-
 
 function checkWin(){
     //order of checks: 1st row, 2nd row, 3rd row, left-right diag, right-left diag
@@ -159,19 +152,45 @@ function checkWin(){
     }
 }
 
-const radioBtns = document.querySelectorAll('input[name="coin"]')
+//const radioBtns = document.querySelectorAll('input[name="coin"]')
+//checks the selected bet amount, and deducts that from the total coins. saves everything to local storage because I'm trying to learn that right now. 
 
+const rangeValue = document.querySelector('input')
+rangeValue.max = coins
 function getBet(){
-    let selectedBet
-    for (const radioBtn of radioBtns){
-        if (radioBtn.checked){
-            selectedBet = radioBtn.value
-            break
-        }
+    let selectedBet = Number(rangeValue.value)
+    if (selectedBet <= 0 || selectedBet === NaN || selectedBet > coins){
+        console.log('get more money')
+        canPlay = false
+    } else if (coins === 0) {
+        console.log('get more money')
+        canPlay = false
+    } else {
+        coins -= selectedBet
+        document.querySelector('.coins').innerText = coins
+        rangeValue.max = coins
+        firstIntervalId = setInterval(firstCycleArray, speed)
+        secondIntervalId = setInterval(secondCycleArray, speed)
+        thirdIntervalId = setInterval(thirdCycleArray, speed)
     }
-    coins -= selectedBet
-    localStorage.setItem('coins', coins)
-    document.querySelector('.coins').innerText = localStorage.getItem('coins')
-
-    console.log(selectedBet)
 }
+
+// function getBet(){
+//     let selectedBet
+//     for (const radioBtn of radioBtns){
+//         if (radioBtn.checked){
+//             if (Number(radioBtn.value) <= coins && coins !== 0){
+//                 selectedBet = Number(radioBtn.value)
+//                 break
+//             } else {
+//                 return canPlay = false
+//             }
+            
+//         }
+//     }
+//         coins -= selectedBet
+//         document.querySelector('.coins').innerText = coins
+//         console.log(selectedBet)
+//         return canPlay = true
+    
+// }
